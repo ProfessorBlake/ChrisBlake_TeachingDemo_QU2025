@@ -12,6 +12,8 @@ AHealthStation::AHealthStation()
 	HealthValue = 50;
 	HealthTickRate = 1.0f;
 	healthTickDelay = HealthTickRate;
+	HealthSendRate = 0.25f;
+	healthSendDelay = 0;
 }
 
 // Called when the game starts or when spawned
@@ -26,5 +28,37 @@ void AHealthStation::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// Health Generation
+	if (healthTickDelay > 0)
+	{
+		healthTickDelay -= DeltaTime;
+		if (healthTickDelay <= 0)
+		{
+			HealthValue++;
+			if (HealthValue < MaxValue)
+			{
+				healthTickDelay = HealthTickRate;
+			}
+			OnHealthGenerated(HealthValue);
+		}
+	}
+
+	// Send Health
+	if (healthSendDelay > 0) healthSendDelay -= DeltaTime;
+
+}
+
+int32 AHealthStation::RequestHealth()
+{
+	if (healthSendDelay <= 0) 
+	{
+		healthSendDelay = HealthSendRate;
+		healthTickDelay = HealthTickRate;
+		HealthValue--;
+		OnHealthGenerated(HealthValue);
+		return 1;
+	}
+	else 
+		return 0;
 }
 

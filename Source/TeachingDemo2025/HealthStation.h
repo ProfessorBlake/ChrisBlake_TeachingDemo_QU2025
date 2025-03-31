@@ -20,14 +20,20 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Healing") int32 HealthValue;
 	/* Delay between health value increase*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Healing") float HealthTickRate;
+	/* Delay between health send to player*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Healing") float HealthSendRate;
+
 
 	/*Event - When health is generated*/
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Healing") int32 OnHealthGenerated;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Healing") void OnHealthGenerated(int32 health);
+	/*Player requesting health, only sent when sendDelay < 0 */
+	UFUNCTION(BlueprintCallable, Category = "Healing") int32 RequestHealth();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	float healthTickDelay;		// Time remaining until next health tick
+	float healthSendDelay;		// Time until health can be sent to player
 
 public:	
 	// Called every frame
