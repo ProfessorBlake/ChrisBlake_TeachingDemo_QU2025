@@ -50,7 +50,9 @@ void AHealthStation::Tick(float DeltaTime)
 
 int32 AHealthStation::RequestHealth()
 {
-	if (healthSendDelay <= 0) 
+	if (HealthValue <= 0) return 0;
+
+	if (healthSendDelay <= 0)
 	{
 		healthSendDelay = HealthSendRate;
 		healthTickDelay = HealthTickRate;
