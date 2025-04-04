@@ -35,6 +35,8 @@ ATeachingDemo2025Character::ATeachingDemo2025Character()
 	Mesh1P->CastShadow = false;
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
+	MaxHealth = 100;
+	Health = MaxHealth;
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
